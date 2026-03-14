@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Customer Segmentation Dashboard</title>
+</head>
+
+<body>
+
+<h2>Add Customer</h2>
+
+<form method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+
+<button type="submit">Predict Segment</button>
+
+</form>
+
+<h2>Cluster Visualization</h2>
+
+{% if plot_path %}
+
+<img src="/static/cluster_plot.png" width="600">
+
+{% endif %}
+
+<h2>Customer Data</h2>
+
+<table border="1">
+
+<tr>
+<th>ID</th>
+<th>Age</th>
+<th>Income</th>
+<th>Spending Score</th>
+<th>Cluster</th>
+</tr>
+
+{% for customer in customers %}
+
+<tr>
+
+<td>{{ customer.id }}</td>
+<td>{{ customer.age }}</td>
+<td>{{ customer.annual_income }}</td>
+<td>{{ customer.spending_score }}</td>
+<td>{{ customer.cluster }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+
+</html>

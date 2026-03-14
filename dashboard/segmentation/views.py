@@ -2,6 +2,10 @@ from django.shortcuts import render
 from .forms import CustomerForm
 from .models import Customer
 from .ml_model import predict_cluster
+from .visualization import generate_cluster_plot
+
+import pandas as pd
+
 
 def dashboard(request):
 
@@ -26,7 +30,16 @@ def dashboard(request):
 
     customers = Customer.objects.all()
 
+    data = pd.DataFrame(list(customers.values()))
+
+    plot_path = None
+
+    if len(data) > 0:
+
+        plot_path = generate_cluster_plot(data)
+
     return render(request, "dashboard.html", {
         "form": form,
-        "customers": customers
+        "customers": customers,
+        "plot_path": plot_path
     })
